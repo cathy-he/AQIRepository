@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=yes, initial-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <title>Crowd Air</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="startpage-threeblocks" style="background-color: #efeff3; overflow: auto;">
+            <div style="padding-top: 10px; padding-bottom: 10px; background-color: #000000; color: #ffffff;">
+                <div class="arrow-left">
+                    <a href="symptoms.html">
+                        <img src="img/arrow-left.png" alt="" /></a>
+                </div>
+                <div>Symptoms</div>
+            </div>
+            <div class="">
+                <ul>
+                    <li>
+                        <span style="text-align: left; display: block;">1) How satisfied are you in general with the AQ in Oslo ?</span>
+                        <div class="radio-label" style="padding: 10px 0 0">
+                            <label for="r1">1</label>
+                            <label for="r2">2</label>
+                            <label for="r3">3</label>
+                            <label for="r4">4</label>
+                            <label for="r5">5</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="radio1" tabindex="1" value="1" id="r1" checked="checked" />
+                            <input type="radio" name="radio2" tabindex="2" value="2" id="r2" />
+                            <input type="radio" name="radio3" tabindex="3" value="3" id="r3" />
+                            <input type="radio" name="radio4" tabindex="4" value="4" id="r4" />
+                            <input type="radio" name="radio5" tabindex="5" value="5" id="r5" />
+                        </div>
+                        <div style="font-size: 15px;"><span style="padding-right: 140px;">not at all</span> <span style="text-align: right;">very</span></div>
+                    </li>
+                    <li>
+                        <span style="text-align: left; display: block;">2) How is in general your health ?</span>
+                        <div class="radio-label" style="padding: 10px 0 0">
+                            <label for="r1">1</label>
+                            <label for="r2">2</label>
+                            <label for="r3">3</label>
+                            <label for="r4">4</label>
+                            <label for="r5">5</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="radio1" tabindex="1" value="1" id="Radio1" checked="checked" />
+                            <input type="radio" name="radio2" tabindex="2" value="2" id="Radio2" />
+                            <input type="radio" name="radio3" tabindex="3" value="3" id="Radio3" />
+                            <input type="radio" name="radio4" tabindex="4" value="4" id="Radio4" />
+                            <input type="radio" name="radio5" tabindex="5" value="5" id="Radio5" />
+                        </div>
+                        <div style="font-size: 15px;"><span style="padding-right: 140px;">poor</span> <span style="text-align: right;">excellent</span></div>
+                    </li>
+                    <li>
+                        <span style="text-align: left; display: block;">3) Do you suffer from asthma or other XXX disease?</span>
+                        <div style="padding-top: 10px;">
+                            <label for="Radio6">Yes</label><input type="radio" name="radio1" tabindex="1" value="1" id="Radio6" checked="checked" />
+                            <label for="Radio7">No</label><input type="radio" name="radio2" tabindex="2" value="2" id="Radio7" />
+                        </div>
+
+                    </li>
+                    <li>
+                        <span style="text-align: left; display: block;">4) Are you?</span>
+
+                        <div style="padding-top: 10px;">
+                            <label for="Radio8">Male</label><input type="radio" name="radio1" tabindex="1" value="1" id="Radio8" checked="checked" />
+                            <label for="Radio9">Female</label><input type="radio" name="radio2" tabindex="2" value="2" id="Radio9" />
+                        </div>
+
+                    </li>
+                    <li>
+                        <span style="text-align: left; display: block;">5)When were you born?</span>
+                        <div style="padding-top: 10px;">
+                            <input id="birthday" type="date" />
+                        </div>
+
+                    </li>
+                </ul>
+                <div class="button-save" style="position:relative; margin:60px 0 30px;">
+                    <a href="#">Submit</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="startpage-bottom">
+            <a href="index.html">
+                <img src="img/track.png" alt="" /></a>
+            <a href="track.html">
+                <img src="img/map.png" alt="" /></a>
+            <a href="symptoms.html">
+                <img src="img/symptom.png" alt="" /></a>
+            <a href="information.html">
+                <img src="img/information.png" alt="" /></a>
+            <a href="setting.html">
+                <img src="img/setting.png" alt="" /></a>
+        </div>
+
+    </div>
+</body>
+</html>

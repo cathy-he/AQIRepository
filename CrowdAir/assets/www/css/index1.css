@@ -1,0 +1,510 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	/* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+html,body {
+	font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial,
+		sans-serif;
+	font-size: 20px;
+	margin: 0 auto;
+	padding: 0px;
+	min-height: 100%;
+	height: 100%;
+	width: 100%;
+}
+
+table {
+	font-size: 15px;
+	padding: 5px;
+	overflow: hidden;
+	text-align: left;
+	width: 100%;
+}
+
+a {
+	text-decoration: none;
+	color: #ffffff;
+}
+/* Portrait layout (default) */
+
+/* Landscape layout (with min-width) */
+@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+}
+
+.wrapper {
+	position: relative;
+	width: 100%;
+	margin: 0 auto;
+	overflow: scroll;
+	min-height: 100%;
+	height: 100%;
+}
+
+.startpage-fourblocks {
+	/* @yingzi: This is for the index.html starting page */
+	height: 90%;
+	width: 100%;
+	text-align: center;
+	position: relative;
+	background-color: #efeff3;
+}
+
+.startpage-fourblocks .block {
+	height: 25%;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.startpage-fourblocks .block div {
+	position: relative;
+	top: 40%;
+}
+
+.startpage-threeblocks {
+	/* @yingzi: This is for the index.html starting page */
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	position: relative;
+	background-color: #efeff3;
+}
+
+.startpage-threeblocks .block {
+	height: 25%;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.startpage-threeblocks .block div {
+	position: relative;
+	top: 40%;
+}
+
+.line-separator {
+	border-bottom: 2px solid #4ebfcc;
+	width: 100%;
+}
+
+.startpage-threeblocks .block a {
+	
+}
+
+.startpage-bottom {
+	height: 11%;
+	width: 100%;
+	display: table;
+	text-align: center;
+	background-color: #000000;
+	overflow: hidden;
+}
+
+.startpage-bottom a {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.metrotemp {
+	height: 40%;
+	position: relative;
+}
+
+.metrotemp div {
+	position: relative;
+	top: 40%;
+}
+
+.metrolist {
+	display: table;
+	width: 100%;
+	height: 20%;
+}
+
+.metro3days {
+	height: 40%;
+}
+
+.metro3days table tr td:first-child {
+	padding-right: 50px;
+}
+
+.aqi-header {
+	height: 30%;
+}
+
+.aqi-map {
+	height: 70%;
+}
+
+.pollen-header {
+	height: 60%;
+}
+
+.pollen-content {
+	height: 40%;
+}
+
+.arrow {
+	float: right;
+	display: inline-block;
+	margin-right: 40px;
+}
+
+.arrow img {
+	vertical-align: middle;
+}
+
+.clear {
+	clear: both;
+}
+
+.text {
+	display: inline-block;
+}
+
+.arrow-left {
+	float: left;
+	left: 10px;
+	position: relative !important;
+	top: 10% !important;
+}
+
+.pollen-table {
+	text-align: center !important;
+	margin-top: 20px;
+}
+
+.pollen-table tr td {
+	padding-bottom: 5px;
+	border: 1px solid #ffffff;
+	background-color: #ffffff;
+	color: #edbd5e;
+}
+
+.track-bottom {
+	width: 100%;
+	background: url("../img/back1.png");
+	position: fixed;
+	bottom: 10%;
+	left: 0;
+	height: 100px;
+	z-index: 100;
+}
+
+.two-buttons {
+	text-align: center;
+	height: 40px;
+	display: block;
+}
+
+.two-buttons a {
+	margin-left: 35px;
+	border: 1px solid #ffffff;
+	width: 100px;
+	display: inline-block;
+	line-height: 2;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.two-buttons a:first-child {
+	margin-left: 0;
+}
+
+.trackstrat-bottom {
+	width: 100%;
+	background: url("../img/back1.png") repeat-x;
+	left: 0;
+	height: 180px;
+	z-index: 10;
+	position: fixed;
+	bottom: 10%;
+	left: 0;
+}
+
+.tracttext {
+	font-size: 15px;
+	text-align: left;
+	margin-left: 10px;
+	color: #ffffff;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+.three-href {
+	text-align: center;
+	height: 40px;
+}
+
+.three-href a {
+	display: inline-block;
+	line-height: 2;
+	margin-left: 20px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.three-href a:first-child {
+	width: 100px;
+	border: 1px solid #ffffff;
+}
+
+.three-href a img {
+	vertical-align: middle;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	max-height: 90%;
+	margin-top: 0;
+}
+
+ul li {
+	padding: 5px;
+	overflow: hidden;
+	line-height: 1;
+	border-bottom: 3px solid #d7d7d7;
+}
+
+.datetime {
+	text-align: left;
+	float: left;
+}
+
+.checkbox{
+	text-align: left;
+	float: left;
+	vertical-align: center;
+	height: 50px; 
+	line-height:50px; 
+	
+}
+
+/* .sign{
+	font:size="5";
+	color:"blue";
+} */
+
+.entireLine {
+	text-align: left;
+	float: none;
+}
+
+.textarea {
+	text-align: left;
+	float: left;
+	width: 100%;
+}
+
+.symptom-choice {
+	text-align: right;
+	vertical-align: bottom;
+	width: 200px;
+}
+
+.symptom-bottom {
+	background: url(../img/symptom-bottomback.png) repeat-x;
+	height: 160px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+
+.smallarrow-right {
+	background: url(../img/small-arrowright.png) no-repeat center;
+	float: right;
+}
+
+.symheart-blank {
+	display: inline-block;
+	background: url(../img/heart-blank.png) no-repeat center;
+	height: 25px;
+	width: 29px;
+	margin-left: 20px;
+}
+
+.symheart-blank:first-child {
+	margin-left: 0;
+}
+
+.sysmheart {
+	display: inline-block;
+	background: url(../img/heart.png) no-repeat center;
+	height: 25px;
+	width: 29px;
+	margin-left: 20px;
+}
+
+.sysmheart:first-child {
+	margin-left: 0;
+}
+
+ul li a {
+	background: url(../img/small-arrowright.png) no-repeat center right;
+	display: block;
+	padding-left: 20px;
+	text-align: left;
+	color: #ffffff;
+	line-height: 27px;
+	line-height: 1.5;
+}
+
+.symptom-bottom ul {
+	margin: 0 auto;
+	height: 160px;
+}
+
+.symptom-bottom ul li {
+	height: 27px;
+}
+
+.symptom-bottom ul li:last-child {
+	border: none;
+}
+
+input[type="radio"] {
+	margin: 0 14px;
+	display: inline-block;
+	width: 19px;
+	height: 25px;
+	
+}
+
+.radio-label {
+	padding-bottom: 10px;
+}
+
+.radio-label label {
+	display: inline-block;
+	margin: 0 18px;
+}
+
+.button-save {
+	text-align: right;
+	position: absolute;
+	bottom: 40PX;
+	right: 20PX;
+}
+
+.pure-button {
+	font-family: inherit;
+	font-size: 100%;
+	*font-size: 90%;
+	*overflow: visible;
+	padding: .5em 1em;
+	color: #444;
+	color: rgba(0, 0, 0, .8);
+	*color: #444;
+	border: 1px solid #999;
+	border: 0 rgba(0, 0, 0, 0);
+	background-color: #E6E6E6;
+	text-decoration: none;
+	border-radius: 2px
+}
+
+.pure-button-hidden {
+	display: none
+}
+
+.pure-button::-moz-focus-inner {
+	padding: 0;
+	border: 0
+}
+
+.pure-button-primary,.pure-button-selected,a.pure-button-primary,a.pure-button-selected
+	{
+	background-color: #0078e7;
+	color: #fff
+}
+
+.button-next {
+	text-align: right;
+	position: absolute;
+	bottom: 40PX;
+	right: 20PX;
+}
+
+.button-camera {
+	text-align: center;
+	position: absolute;
+	bottom: 40PX;
+	left: 40PX;
+}
+
+.button-save a {
+	text-align: center;
+	border: 1px solid #000000;
+	padding: 5px 20px;
+	color: #000000;
+}
+
+.button-next a {
+	text-align: center;
+	border: 1px solid #000000;
+	padding: 5px 20px;
+	color: #000000;
+}
+
+.setting ul li a {
+	color: #000000;
+	background: url(../img/arrow-rightblack.png) no-repeat center right;
+}
+
+table.health {
+	margin: 20px auto 0;
+	border-spacing: 0;
+}
+
+table.health tr td {
+	text-align: left;
+	border: solid 1px #000000;
+	padding: 10px;
+}
+
+.circle img {
+	vertical-align: middle;
+}
+
+table.health tr td:first-child {
+	text-align: center;
+}
+
+.sensor {
+	height: 25px;
+	width: 200px;
+	color: #bcbcbc;
+	border: none;
+	border: 2px solid #bcbcbc;
+	margin-top: 20px;
+}
+
+.sensor:focus {
+	color: #474747;
+}
+
+.citilink a {
+	background-color: #000000;
+	padding: 5px 40px;
+	max-width: 500px;
+	color: #ffffff;
+	text-align: center;
+}

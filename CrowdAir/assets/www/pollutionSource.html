@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport" content="user-scalable=yes, initial-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<meta name="msapplication-tap-highlight" content="no" />
+<title>Crowd Air</title>
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/Share.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+	var pageNum=2;
+	
+	var objIndex = new Object();  
+	var checkOptionNum=0; 
+	objIndex["RoadTraffice"] = CreatePageIndex(pageNum,"RoadTraffice");        
+	objIndex["IndustrialFacility"] = CreatePageIndex(pageNum,"IndustrialFacility");              
+	objIndex["HouseHeating"] = CreatePageIndex(pageNum,"HouseHeating");             
+	objIndex["Ships"] = CreatePageIndex(pageNum,"Ships");     
+	objIndex["PollutionSourceOthers"] = CreatePageIndex(pageNum,"PollutionSourceOthers");   
+	
+	localStorage.setItem(objIndex["RoadTraffice"], 0);
+	localStorage.setItem(objIndex["IndustrialFacility"], 0);
+	localStorage.setItem(objIndex["HouseHeating"], 0);
+	localStorage.setItem(objIndex["Ships"], 0);
+	localStorage.setItem(objIndex["PollutionSourceOthers"], 0);
+	
+	function OnChoose(obj, storageValue) // obj is the id of input control and the storage value is the data which is needed to save in the projects
+	{
+		//obj.innerHTML = "&#10003";
+		// add by Yang
+		if (obj.value == null) {
+			//alert(obj.innerHTML)
+			//obj.value = "&#10003";
+			//obj.style = "visibility:hidden";
+			//objDiv = document.getElementById("divID");
+			obj.innerHTML = "&#10003";
+			obj.value = "";
+			localStorage.setItem(objIndex[storageValue], "1");
+			checkOptionNum=1;
+		} else {
+			//obj.style = "visibility:visble";
+			//objDiv = document.getElementById("divID");
+			obj.innerHTML = "&#9633";
+			obj.value = null;
+			localStorage.setItem(objIndex[storageValue], "0");
+		}
+
+	}
+
+	// link of the buttons
+	function funForward(pageLocation) {
+		if(checkOptionNum==1)
+		{
+		var objText = document.getElementById("txtComment");
+		localStorage.setItem(objIndex["PollutionSourceOthers"], objText.value);
+		window.location.href = pageLocation;
+		}
+		else
+		{
+			alert("please select one reason at least.")
+			return;
+		}
+	}
+</script>
+
+
+</head>
+<body>
+	<div class="wrapper">
+		<div class="startpage-threeblocks" style="background-color: #efeff3;">
+			<div style="padding-top: 10px; padding-bottom: 10px; background-color: #000000; color: #ffffff;">
+				<div class="arrow-left" style="visibility: hidden;">
+					<a href="symptoms.html">
+						<img src="img/arrow-left.png" alt="" />
+					</a>
+				</div>
+				<div>Select the pollution source</div>
+			</div>
+			<div>
+				<ul>
+					<li>
+						<div class="checkbox">Road Traffic</div>
+						<div id="RoadTraffice" style="color:blue; font-size:30px; text-align: right; padding:9px 15px 0px 0px" onclick="OnChoose(this,'RoadTraffice')">&#9633</div>
+					</li>
+					<li>
+						<div class="checkbox">Industrial facility</div>
+						<div id="IndustrialFacility" style="color:blue; font-size:30px; text-align: right; padding:9px 15px 0px 0px" onclick="OnChoose(this,'IndustrialFacility')">&#9633</div>
+					</li>
+					<li>
+						<div class="checkbox">House Heating</div>
+						<div id="HouseHeating" style="color:blue; font-size:30px; text-align: right; padding:9px 15px 0px 0px" onclick="OnChoose(this,'HouseHeating')">&#9633</div>
+					</li>
+					<li>
+						<div class="checkbox">Ships</div>
+						<div id="Ships" style="color:blue; font-size:30px; text-align: right; padding:9px 15px 0px 0px" onclick="OnChoose(this,'Ships')">&#9633</div>
+					</li>
+					<li>
+						<div>Others</div>
+						<textarea id="txtComment" rows="10" cols="50"></textarea>
+					</li>
+				</ul>
+				<div class="button-save">
+					<input type="submit" class="pure-button pure-button-primary" value="BACK" onclick="funForwardDirect('QAfeelings.html')">
+					<input type="submit" class="pure-button pure-button-primary" value="NEXT" onclick="funForward('aqiHealth.html')">
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="startpage-bottom">
+			<a href="index.html">
+				<img src="img/track.png" alt="" />
+			</a>
+			<a href="track.html">
+				<img src="img/map.png" alt="" />
+			</a>
+			<a href="symptoms.html">
+				<img src="img/symptom.png" alt="" />
+			</a>
+			<a href="information.html">
+			
+				<img src="img/information.png" alt="" />
+			</a>
+			<a href="setting.html">
+				<img src="img/setting.png" alt="" />
+			</a>
+		</div>
+
+	</div>
+</body>
+</html>

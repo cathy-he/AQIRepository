@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport" content="user-scalable=yes, initial-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+
+<meta name="msapplication-tap-highlight" content="no" />
+<title>Crowd Air</title>
+
+<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/Share.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/CalendarEventPlugin.js"></script>
+<script type="text/javascript" src="js/cordova-1.5.0.js"></script>
+
+<script>
+	localStorage.clear();
+	var strUserID="";  //UserID
+	localStorage.setItem("1.QualitySatisfied", "1");
+	localStorage.setItem("2.healthRate", "1");
+	localStorage.setItem("4.Gender", "Male");
+	localStorage.setItem("3.RespiratoryDisease", "Yes");
+	localStorage.setItem("6.Education","1");
+	localStorage.setItem("5.BirthYear", "2014");
+	
+	function OptionChoice(objName, actType) {
+		localStorage.setItem(actType, objName.value);
+	}
+	
+	function onFileSystemSuccess(fileSystem) 
+        { 
+        	//create the directory file
+        	dataDir = fileSystem.root.getDirectory("AQIData", {create: true, exclusive: false}, gotUserFolderEntry, fail);
+        }
+        
+    	//create the folder
+    	function gotUserFolderEntry(fileEntry) 
+        { 
+        	//create the directory file
+        	dataDirFolder = fileEntry.getDirectory(strUserID, {create: true, exclusive: false}, gotFileEntry, fail);
+        }
+        
+        //create the result file
+    	function gotFileEntry(fileEntry) 
+    	{
+    		//alert("gotFileEntry");
+    		fileEntry.getFile("UserInfo.txt", {create: true, exclusive: false},gotFileWriteEntry, fail);
+    	}
+        
+        // create the writer --- it used for writing file
+		function gotFileWriteEntry(fileEntry) 
+    	{
+        	fileEntry.createWriter(gotFileWriter, fail);
+    	}
+		//error display
+		function fail(error) 
+    	{
+        	alert(error.code);
+    	}
+    	
+	//get UserId and write files.
+    	function gotFileWriter(writer) 
+    	{
+	       var xmlText="";
+	       if(writer.length==0)
+	       {
+           	  xmlText="<?xml version='1.0' encoding='utf-8'?>\r\n";
+           }
+		   xmlText+="<UserInfo>\r\n";
+		   //Get Comment
+		   var strUserID=document.getElementById("txt_UserName").value;
+           localStorage.setItem("UserID", strUserID);
+           
+           for (var key in localStorage)
+            {
+                //var xmlText = new StringBuffer();
+                var storageKey = key;
+                //alert(storageKey);
+                if(storageKey=="UserID")
+                {}
+                else
+                {
+                xmlText=xmlText.concat("", "<" + GetVariableIndexName(storageKey) + ">\r\n"); //start
+                xmlText=xmlText.concat("", localStorage.getItem(storageKey) + "\r\n"); //value
+                xmlText=xmlText.concat("", "</" + GetVariableIndexName(storageKey) + ">\r\n"); //end
+            	}
+            }
+            
+            xmlText +="</UserInfo>\r\n"
+	        writer.write(xmlText);
+	        alert("Your information have been saved");
+	        window.location.href="index.html";
+        }
+        
+        function funSavePersonalInfo()
+        {
+        	document.addEventListener("deviceready", onFileSys, false);
+        }
+        
+        function onFileSys()
+        {
+        	strUserID=document.getElementById("txt_UserName").value;
+			if (strUserID=="")
+			{
+				alert("please write your username!");
+				return ;
+			}
+			else
+			{
+        	 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
+        	}
+        }
+	
+	// link of the buttons
+	function funForward(pageLocation)
+	{
+		window.location.href=pageLocation;
+	}
+	
+	function initYearOptions()
+	{
+		var obj= document.getElementById("YearSelect");
+		var startYear=2014;
+		for(startYear=2014;startYear>1900;startYear--)
+		{
+			var option = document.createElement("option");
+			option.text = startYear;
+			option.value = startYear;
+			obj.add(option);
+			
+		}
+	}
+	
+	function YearChange(obj)
+	{
+		localStorage.setItem("5.BirthYear", obj.value);
+	}
+	
+	function GoBack(){
+		navigator.app.backHistory();
+		}
+
+</script>
+
+</head>
+<body onload="initYearOptions()">
+<div>
+	<div class="wrapper">
+		<div class="startpage-threeblocks" style="background-color: #efeff3;">
+			<div style="padding-top: 10px; padding-bottom: 10px; background-color: #000000; color: #ffffff;">
+				<div class="arrow-left" style="visibility: hidden;">
+					<a href="symptoms.html"> <img src="img/arrow-left.png" alt="" /> </a>
+				</div>
+				<div>User Information</div>
+			</div>
+			<div class="">
+				<ul><li>
+						<span>User Name</span> <br />
+						<div>
+							<input id="txt_UserName" name="txt_UserName" type="text" value="">
+						</div>
+						
+					</li>
+					<li><br />
+						<div class="entireLine">1.How satisfied are you with the air quality in Oslo ?</div>
+						<div class="datetime">
+							<input type="radio" name="QualitySatisfied" tabindex="1" value="1" id="ar1" checked="checked"
+								onchange="OptionChoice(this, 'QualitySatisfied')" />
+							<label id="QualitySatisfied1"> 1.Not at all</label><br />
+							<input type="radio" name="QualitySatisfied" tabindex="2" value="2" id="ar2" onchange="OptionChoice(this, '1.QualitySatisfied')" />
+							<label id="QualitySatisfied2"> 2.Very little</label><br />
+							<input type="radio" name="QualitySatisfied" tabindex="3" value="3" id="ar3" onchange="OptionChoice(this, '1.QualitySatisfied')" />
+							<label id="QualitySatisfied3"> 3.Somewhat</label><br />
+							<input type="radio" name="QualitySatisfied" tabindex="4" value="4" id="ar4" onchange="OptionChoice(this, '1.QualitySatisfied')" />
+							<label id="QualitySatisfied4"> 4.Quite a lot</label><br />
+							<input type="radio" name="QualitySatisfied" tabindex="5" value="5" id="ar5" onchange="OptionChoice(this, '1.QualitySatisfied')" />
+							<label id="QualitySatisfied5"> 5.Extremely</label><br />
+						</div></li>
+					<li>
+						<div class="entireLine">2.Overall, how would you rate your health ?</div>
+						<div class="datetime">
+							<input type="radio" name="healthRate" tabindex="1" value="1" id="CoughRadio1" onchange="OptionChoice(this, '2.healthRate')"
+								checked="checked" />
+							<label id="healthRateLb1"> 1.Very poor</label><br />
+							<input type="radio" name="healthRate" tabindex="2" value="2" id="CoughRadio2" onchange="OptionChoice(this, '2.healthRate')" />
+							<label id="healthRateLb2"> 2.Poor</label><br />
+							<input type="radio" name="healthRate" tabindex="3" value="3" id="CoughRadio3" onchange="OptionChoice(this, '2.healthRate')" />
+							<label id="healthRateLb3"> 3.Fair</label><br />
+							<input type="radio" name="healthRate" tabindex="4" value="4" id="CoughRadio4" onchange="OptionChoice(this, '2.healthRate')" />
+							<label id="healthRateLb4"> 4.Good</label><br />
+							<input type="radio" name="healthRate" tabindex="5" value="5" id="CoughRadio5" onchange="OptionChoice(this, '2.healthRate')" />
+							<label id="healthRateLb5"> 5.Very Good</label><br />
+						</div></li>
+					<li>
+						<div class="entireLine">3.Do you suffer from asthma or other respiratory disease?</div>
+						<div class="datetime">
+							<input type="radio" name="RespiratoryDisease" tabindex="1" value="Yes" id="WheezeRadio1"
+								onchange="OptionChoice(this, '3.RespiratoryDisease')" checked="checked" />
+							<label for="RespiratoryDiseaseY"> 1.Yes</label>
+							<input type="radio" name="RespiratoryDisease" tabindex="2" value="No" id="WheezeRadio2"
+								onchange="OptionChoice(this, '3.RespiratoryDisease')" />
+							<label for="RespiratoryDiseaseN"> 2.No</label>
+						</div></li>
+					<li>
+						<div class="entireLine">4.What is your gender?</div>
+						<div class="datetime">
+							<input type="radio" name="Gender" tabindex="1" value="Male" id="DatetimeRadio1" onchange="OptionChoice(this, '4.Gender')"
+								checked="checked" />
+							<label for="male"> 1.Male</label>
+							<input type="radio" name="Gender" tabindex="2" value="Female" id="DatetimeRadio2" onchange="OptionChoice(this, '4.Gender')" />
+							<label for="Female"> 2.Female</label>
+						</div></li>
+					<li>
+						<div class="entireLine">5.When were you born?</div>
+						<div class="datetime">
+							<select id="YearSelect" style="height: 30px; width: 180px; margin-left: 18px;" onchange="YearChange(this)">
+
+							</select>
+						</div></li>
+					<li>
+						<div class="entireLine">
+							6.What is the highest degree or level of school you have completed? <br />If currently enrolled, highest degree received.
+						</div>
+						<div class="entireLine">
+							<input type="radio" name="Education" tabindex="1" value="1" id="EyesRadio6" onchange="OptionChoice(this, '6.Education')"
+								checked="checked" />
+							<label id="eductionLb1"> 1.Less than high school</label><br />
+							<input type="radio" name="Education" tabindex="2" value="2" id="EyesRadio7" onchange="OptionChoice(this, '6.Education')" />
+							<label id="eductionLb2"> 2.High school graduate </label><br />
+
+							<input type="radio" name="Education" tabindex="3" value="3" id="EyesRadio8" onchange="OptionChoice(this, '6.Education')" />
+							<label id="eductionLb3"> 3.Some University, no degree </label> <br />
+							<input type="radio" name="Education" tabindex="4" value="4" id="EyesRadio9" onchange="OptionChoice(this, '6.Education')" />
+							<label id="eductionLb4"> 4.University degree</label><br />
+							<input type="radio" name="Education" tabindex="5" value="5" id="EyesRadio10" onchange="OptionChoice(this,'6.Education')" />
+							<label id="eductionLb5"> 5.Master degree </label><br />
+							<input type="radio" name="Education" tabindex="6" value="6" id="EyesRadio10" onchange="OptionChoice(this,'6.Education')" />
+							<label id="eductionLb6"> 6.Doctorate degree </label><br />
+						</div></li>
+				</ul>
+				<div class="button-save-radio">
+					<input type="submit" class="pure-button pure-button-primary" value="HOME" onclick="GoBack()">
+					<input type="submit" class="pure-button pure-button-primary" value="REGISTER" onclick="funSavePersonalInfo()">					
+				</div>
+			</div>
+		</div>
+		<div class="clear">
+		</div>
+
+	</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport" content="user-scalable=yes, initial-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+
+<meta name="msapplication-tap-highlight" content="no" />
+<title>Crowd Air</title>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/Share.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+	var pageNum = 4;
+	var objIndex = new Object();
+	objIndex["Activities"] = CreatePageIndex(pageNum, "Activities");
+	objIndex["Cough"] = CreatePageIndex(pageNum, "Cough");
+	objIndex["Wheeze"] = CreatePageIndex(pageNum, "Wheeze");
+	objIndex["ChestTightness"] = CreatePageIndex(pageNum, "ChestTightness");
+	objIndex["EyesIrritation"] = CreatePageIndex(pageNum, "EyesIrritation");
+	objIndex["ThroatIrritation"] = CreatePageIndex(pageNum, "ThroatIrritation");
+	objIndex["Headache"] = CreatePageIndex(pageNum, "Headache");
+	objIndex["SymptomsOthers"] = CreatePageIndex(pageNum, "SymptomsOthers");
+
+	localStorage.setItem(objIndex["Activities"], 1);
+	localStorage.setItem(objIndex["Cough"], 1);
+	localStorage.setItem(objIndex["Wheeze"], 1);
+	localStorage.setItem(objIndex["ChestTightness"], 1);
+	localStorage.setItem(objIndex["Headache"], 1);
+	localStorage.setItem(objIndex["EyesIrritation"], 1);
+	localStorage.setItem(objIndex["ThroatIrritation"], 1);
+	localStorage.setItem(objIndex["SymptomsOthers"], 1);
+	//add by Yang 10 24
+	function OptionChoice(obj, actType) {
+		localStorage.setItem(objIndex[actType], obj.value);
+	}
+	// link of the buttons
+	function funForward(pageLocation) {
+		var objText = document.getElementById("txtComment");
+		localStorage.setItem(objIndex["SymptomsOthers"], objText.value);
+		window.location.href = pageLocation;
+	}
+</script>
+
+</head>
+<body>
+<div>
+	<div class="wrapper">
+		<div class="startpage-threeblocks" style="background-color: #efeff3; overflow: scroll">
+			<div style="padding-top: 10px; padding-bottom: 10px; background-color: #000000; color: #ffffff;">
+				<div class="arrow-left" style="visibility: hidden;">
+					<a href="symptoms.html"> <img src="img/arrow-left.png" alt="" /> </a>
+				</div>
+				<div>Symptoms</div>
+			</div>
+			<div class="">
+				<ul>
+					<li><span>If you are experiencing symptoms, tell us what symptoms you are suffering and rate them. </span>
+						<div style="text-align: left;">
+							1- Not at all</br> 2- Slightly</br> 3- Moderately</br> 4- Quite a lot</br> 5- Extremely</br>
+						</div></li>
+					<li><div class="entireLine"> Can you do your usual activities (as walking, driving, doing your daily work, etc.)?</div>
+						<div class="datetime">
+						<p >&nbsp;&nbsp;&nbsp;
+							1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							5</p>
+						<p>	<input style="width:2.5em;height:2.5em" type="radio" name="activities" tabindex="1" value="1" id="ar1" checked="checked" onchange="OptionChoice(this, 'Activities')" />
+							<input style="width:2.5em;height:2.5em"  type="radio" name="activities" tabindex="2" value="2" id="ar2" onchange="OptionChoice(this, 'Activities')" />
+							<input style="width:2.5em;height:2.5em"  type="radio" name="activities" tabindex="3" value="3" id="ar3" onchange="OptionChoice(this, 'Activities')" />
+							<input style="width:2.5em;height:2.5em"  type="radio" name="activities" tabindex="4" value="4" id="ar4" onchange="OptionChoice(this, 'Activities')" />
+							<input  style="width:2.5em;height:2.5em" type="radio" name="activities" tabindex="5" value="5" id="ar5" onchange="OptionChoice(this, 'Activities')" />
+						</p>
+						</div></li>
+					<li>
+						<div class="entireLine"> Cough</div>
+						<div class="datetime">
+						<p >&nbsp;&nbsp;&nbsp;
+						1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						5</p>
+						<p>
+						<input style="width:2.5em;height:2.5em" type="radio" name="cough" tabindex="1" value="1" id="CoughRadio1" onchange="OptionChoice(this, 'Cough')" checked="checked" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="cough" tabindex="2" value="2" id="CoughRadio2" onchange="OptionChoice(this, 'Cough')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="cough" tabindex="3" value="3" id="CoughRadio3" onchange="OptionChoice(this, 'Cough')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="cough" tabindex="4" value="4" id="CoughRadio4" onchange="OptionChoice(this, 'Cough')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="cough" tabindex="5" value="5" id="CoughRadio5" onchange="OptionChoice(this, 'Cough')" />
+						</p>
+						</div></li>
+					<li>
+						<div class="entireLine"> Wheeze</div>
+						<div class="datetime">
+						<p >&nbsp;&nbsp;&nbsp;
+						1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						5</p>
+						<p>
+							<input style="width:2.5em;height:2.5em" type="radio" name="wheeze" tabindex="1" value="1" id="WheezeRadio1" onchange="OptionChoice(this, 'Wheeze')" checked="checked" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="wheeze" tabindex="2" value="2" id="WheezeRadio2" onchange="OptionChoice(this, 'Wheeze')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="wheeze" tabindex="3" value="3" id="WheezeRadio3" onchange="OptionChoice(this, 'Wheeze')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="wheeze" tabindex="4" value="4" id="WheezeRadio4" onchange="OptionChoice(this, 'Wheeze')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="wheeze" tabindex="5" value="5" id="WheezeRadio5" onchange="OptionChoice(this, 'Wheeze')" />
+							</p>
+						</div></li>
+					<li>
+						<div class="entireLine"> Chest tightness</div>
+						<div class="datetime">
+						<p >&nbsp;&nbsp;&nbsp;
+						1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						5</p>
+						<p>
+							<input style="width:2.5em;height:2.5em" type="radio" name="datetime" tabindex="1" value="1" id="ChestTightnessRadio1" onchange="OptionChoice(this, 'ChestTightness')"
+								checked="checked" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="datetime" tabindex="2" value="2" id="ChestTightnessRadio2" onchange="OptionChoice(this, 'ChestTightness')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="datetime" tabindex="3" value="3" id="ChestTightnessRadio3" onchange="OptionChoice(this, 'ChestTightness')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="datetime" tabindex="4" value="4" id="ChestTightnessRadio4" onchange="OptionChoice(this, 'ChestTightness')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="datetime" tabindex="5" value="5" id="ChestTightnessRadio5" onchange="OptionChoice(this, 'ChestTightness')" />
+							</p>
+						</div></li>
+					<li>
+						<div class="entireLine"> Eyes irritation</div>
+						<div class="datetime">
+						<p >&nbsp;&nbsp;&nbsp;
+						1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						5</p>
+						<p>
+							<input style="width:2.5em;height:2.5em" type="radio" name="Eyes" tabindex="1" value="1" id="EyesRadio6" onchange="OptionChoice(this, 'EyesIrritation')"
+								checked="checked" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Eyes" tabindex="2" value="2" id="EyesRadio7" onchange="OptionChoice(this, 'EyesIrritation')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Eyes" tabindex="3" value="3" id="EyesRadio8" onchange="OptionChoice(this, 'EyesIrritation')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Eyes" tabindex="4" value="4" id="EyesRadio9" onchange="OptionChoice(this, 'EyesIrritation')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Eyes" tabindex="5" value="5" id="EyesRadio10" onchange="OptionChoice(this,'EyesIrritation')" />
+							</p>
+						</div></li>
+					<li>
+						<div class="entireLine"> Throat irritation</div>
+						<div class="datetime">
+						<p >&nbsp;&nbsp;&nbsp;
+						1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						5</p>
+						<p>
+							<input style="width:2.5em;height:2.5em" type="radio" name="Throat" tabindex="1" value="1" id="ThroatIrritationRadio1"
+								onchange="OptionChoice(this, 'ThroatIrritation')" checked="checked" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Throat" tabindex="2" value="2" id="ThroatIrritationRadio2"
+								onchange="OptionChoice(this, 'ThroatIrritation')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Throat" tabindex="3" value="3" id="ThroatIrritationRadio3"
+								onchange="OptionChoice(this, 'ThroatIrritation')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Throat" tabindex="4" value="4" id="ThroatIrritationRadio4"
+								onchange="OptionChoice(this, 'ThroatIrritation')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Throat" tabindex="5" value="5" id="ThroatIrritationRadio5"
+								onchange="OptionChoice(this, 'ThroatIrritation')" />
+							</p>
+						</div></li>
+					<li>
+						<div class="entireLine"> Headache</div>
+						<div class="datetime">
+						<p >&nbsp;&nbsp;&nbsp;
+						1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						5</p>
+						<p>
+							<input style="width:2.5em;height:2.5em" type="radio" name="Headache" tabindex="1" value="1" id="HeadacheRadio1" onchange="OptionChoice(this, 'Headache')"
+								checked="checked" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Headache" tabindex="2" value="2" id="HeadacheRadio2" onchange="OptionChoice(this, 'Headache')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Headache" tabindex="3" value="3" id="HeadacheRadio3" onchange="OptionChoice(this, 'Headache')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Headache" tabindex="4" value="4" id="HeadacheRadio4" onchange="OptionChoice(this, 'Headache')" />
+							<input style="width:2.5em;height:2.5em" type="radio" name="Headache" tabindex="5" value="5" id="HeadacheRadio5" onchange="OptionChoice(this, 'Headache')" />
+							</p>
+						</div></li>
+					<li>
+						<div> Others</div> <textarea id="txtComment" rows="10" cols="50"></textarea></li>
+
+				</ul>
+				<!-- <div class="button-save">
+					<a href="triggers.html">NEXT</a>
+				</div> -->
+				<div class="button-save-radio">
+					<input type="submit" class="pure-button pure-button-primary" value="BACK" onclick="funForward('aqiHealth.html')">
+					<input type="submit" class="pure-button pure-button-primary" value="NEXT" onclick="funForward('triggers.html')">
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<!--<div class="startpage-bottom">
+			<a href="index.html"> <img src="img/track.png" alt="" /> </a> <a href="track.html"> <img src="img/map.png" alt="" /> </a> <a
+				href="symptoms.html"> <img src="img/symptom.png" alt="" /> </a> <a href="information.html"> <img src="img/information.png" alt="" />
+			</a> <a href="setting.html"> <img src="img/setting.png" alt="" /> </a>
+		</div>-->
+
+	</div>
+	</div>
+</body>
+</html>

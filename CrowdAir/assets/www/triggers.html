@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport" content="user-scalable=yes, initial-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<meta name="msapplication-tap-highlight" content="no" />
+<title>Crowd Air</title>
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/Share.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+	var objIndex = new Object();
+	var checkOptionNum = 0;
+	var pageNum = 5;
+	objIndex["RoadTrafficPolllution"] = CreatePageIndex(pageNum,
+			"RoadTrafficPolllution");
+	objIndex["IndustrialPollution"] = CreatePageIndex(pageNum,
+			"IndustrialPollution");
+	objIndex["Pollen"] = CreatePageIndex(pageNum, "Pollen");
+	objIndex["Dust"] = CreatePageIndex(pageNum, "Dust");
+	objIndex["Smoke"] = CreatePageIndex(pageNum, "Smoke");
+	objIndex["StrongOdor"] = CreatePageIndex(pageNum, "StrongOdor"); //
+	objIndex["PhysicalActivities"] = CreatePageIndex(pageNum,
+			"PhysicalActivities"); //
+
+	objIndex["ThroatIrritationTrigger"] = CreatePageIndex(pageNum,
+			"ThroatIrritationTrigger");
+	objIndex["WeatherCondition"] = CreatePageIndex(pageNum, "WeatherCondition");
+	objIndex["TriggersOther"] = CreatePageIndex(pageNum, "TriggersOther");
+
+	localStorage.setItem(objIndex["RoadTrafficPolllution"], 0);
+	localStorage.setItem(objIndex["IndustrialPollution"], 0);
+	localStorage.setItem(objIndex["Pollen"], 0);
+	localStorage.setItem(objIndex["Dust"], 0);
+	localStorage.setItem(objIndex["Smoke"], 0);
+	localStorage.setItem(objIndex["StrongOdor"], 0);
+	localStorage.setItem(objIndex["PhysicalActivities"], 0);
+	localStorage.setItem(objIndex["ThroatIrritationTrigger"], 0);
+	localStorage.setItem(objIndex["WeatherCondition"], 0);
+	localStorage.setItem(objIndex["TriggersOther"], 0);
+
+	function OnChoose(obj, storageValue) // obj is the id of input control and the storage value is the data which is needed to save in the projects
+	{
+		//obj.innerHTML = "&#10003";
+		// add by Yang
+		if (obj.value == null) {
+			//alert(obj.innerHTML)
+			//obj.value = "&#10003";
+			//obj.style = "visibility:hidden";
+			objDiv = document.getElementById("divID");
+			obj.innerHTML = "&#10003";
+			obj.value = "";
+			localStorage.setItem(objIndex[storageValue], "1");
+			checkOptionNum = 1;
+		} else {
+			//obj.style = "visibility:visble";
+			objDiv = document.getElementById("divID");
+			obj.innerHTML = "&#9633";
+			obj.value = null;
+			localStorage.setItem(objIndex[storageValue], "0");
+		}
+
+	}
+
+	// link of the buttons
+	function funForward(pageLocation) {
+		if (checkOptionNum == 1) {
+			var objText = document.getElementById("txtComment");
+			localStorage.setItem(objIndex["TriggersOther"], objText.value);
+			window.location.href = pageLocation;
+		} else {
+			alert("please select one reason at least.")
+			return;
+		}
+	}
+</script>
+
+
+</head>
+<body>
+<div>
+	<div class="wrapper">
+		<div class="startpage-threeblocks" style="background-color: #efeff3; overflow: scroll">
+			<div style="padding-top: 10px; padding-bottom: 10px; background-color: #000000; color: #ffffff;">
+				<div class="arrow-left" style="visibility: hidden;">
+					<a href="symptoms.html"> <img src="img/arrow-left.png" alt="" /> </a>
+				</div>
+				<div>Triggers</div>
+			</div>
+			<div>
+			<p>
+			If you have symptoms, please select the possible triggers from the list:
+			</p>
+			<hr>
+			</div>
+			<div>
+				<ul>
+					<li>
+						<div class="checkbox">Road Traffic polllution</div>
+						<div id="TrafficDiv" style="color: blue; font-size: 30px; text-align: right; padding: 9px 15px 0px 0px"
+							onclick="OnChoose(this,'RoadTrafficPolllution')">&#9633</div></li>
+					<li>
+						<div class="checkbox">Industrial pollution</div>
+						<div id="IndustrialDiv" style="color: blue; font-size: 30px; text-align: right; padding: 9px 15px 0px 0px"
+							onclick="OnChoose(this,'IndustrialPollution')">&#9633</div></li>
+					<li>
+						<div class="checkbox">Pollen</div>
+						<div id="PollenDiv" style="color: blue; font-size: 30px; text-align: right; padding: 9px 15px 0px 0px"
+							onclick="OnChoose(this,'Pollen')">&#9633</div></li>
+					<li>
+						<div class="checkbox">Dust</div>
+						<div id="DustDiv" style="color: blue; font-size: 30px; text-align: right; padding: 9px 15px 0px 0px" onclick="OnChoose(this,'Dust')">&#9633</div>
+					</li>
+					<li>
+						<div class="checkbox">Smoke</div>
+						<div id="SmokeDiv" style="color: blue; font-size: 30px; text-align: right; padding: 9px 15px 0px 0px" onclick="OnChoose(this,'Smoke')">&#9633</div>
+					</li>
+					<li>
+						<div class="checkbox">Strong odor</div>
+						<div id="OdorDiv" style="color: blue; font-size: 30px; text-align: right; padding: 9px 15px 0px 0px"
+							onclick="OnChoose(this,'StrongOdor')">&#9633</div></li>
+					<li>
+						<div class="checkbox">Physical Activities</div>
+						<div id="PhysicalActivitiesDiv" style="color: blue; font-size: 30px; text-align: right; padding: 9px 15px 0px 0px"
+							onclick="OnChoose(this,'PhysicalActivities')">&#9633</div></li>
+					<li>
+						<div class="checkbox">Throat irritation</div>
+						<div id="throatDiv" style="color: blue; font-size: 30px; text-align: right; padding: 9px 15px 0px 0px"
+							onclick="OnChoose(this,'ThroatIrritationTrigger')">&#9633</div></li>
+					<li>
+						<div class="checkbox">Weather condition</div>
+						<div id="weatherDiv" style="color: blue; font-size: 30px; text-align: right; padding: 9px 15px 0px 0px"
+							onclick="OnChoose(this,'WeatherCondition')">&#9633</div></li>
+					<li>
+						<div>Others</div> <textarea id="txtComment" rows="10" cols="50"></textarea></li>
+				</ul>
+				<div class="button-save-radio">
+					<input type="submit" class="pure-button pure-button-primary" value="BACK" onclick="funForwardDirect('symptoms.html')">
+					<input type="submit" class="pure-button pure-button-primary" value="NEXT" onclick="funForward('comment.html')">
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<!--		<div class="startpage-bottom">
+			<a href="index.html"> <img src="img/track.png" alt="" /> </a> <a href="track.html"> <img src="img/map.png" alt="" /> </a> <a
+				href="symptoms.html"> <img src="img/symptom.png" alt="" /> </a> <a href="information.html"> <img src="img/information.png" alt="" />
+			</a> <a href="setting.html"> <img src="img/setting.png" alt="" /> </a>
+		</div>-->
+
+	</div>
+	</div>
+</body>
+</html>

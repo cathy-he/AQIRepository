@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport"
+	content="user-scalable=yes, initial-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<meta name="msapplication-tap-highlight" content="no" />
+<title>Crowd Air</title>
+<script type="text/javascript" src="js/cordova-1.5.0.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/Share.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+	var pageNum=3;
+	var indexName=CreatePageIndex(pageNum,"health")
+	var checkNum=0;
+	localStorage.setItem(indexName, 0);
+	
+	function chooseheart(objName, arg) {
+		var obj = document.getElementById(objName);
+		localStorage.setItem(indexName, 0); // call local storage
+		checkNum=1;
+		switch (arg) {
+		case 1:
+			// alert("1");
+			var heartObj = document.getElementById("heart" + arg);
+			heartObj.src = "img/heart-green-chosed.png";
+			document.getElementById("heart" + "2").src = "img/heart-yellow.png";
+			document.getElementById("heart" + "3").src = "img/heart-orange.png";
+			document.getElementById("heart" + "4").src = "img/heart-red.png";
+			
+			///change the color of text
+			document.getElementById("FirstRow").className = "hitRow";
+			document.getElementById("SecondRow").className = "ReleaseRow";
+			document.getElementById("ThirdRow").className = "ReleaseRow";
+			document.getElementById("ForthRow").className = "ReleaseRow";
+			
+			
+			break;
+		case 2:
+			//alert("2");
+			var heartObj = document.getElementById("heart" + arg);
+			heartObj.src = "img/heart-yellow-chosed.png";
+			document.getElementById("heart" + "1").src = "img/heart-green.png";
+			document.getElementById("heart" + "3").src = "img/heart-orange.png";
+			document.getElementById("heart" + "4").src = "img/heart-red.png";
+			
+			///change the color of text
+			document.getElementById("FirstRow").className = "ReleaseRow";
+			document.getElementById("SecondRow").className = "hitRow";
+			document.getElementById("ThirdRow").className = "ReleaseRow";
+			document.getElementById("ForthRow").className = "ReleaseRow";
+			
+			
+			break;
+		case 3:
+			//alert("3");
+			var heartObj = document.getElementById("heart" + arg);
+			heartObj.src = "img/heart-orange-chosed.png";
+			document.getElementById("heart" + "1").src = "img/heart-green.png";
+			document.getElementById("heart" + "2").src = "img/heart-yellow.png";
+			document.getElementById("heart" + "4").src = "img/heart-red.png";
+			
+			///change the color of text
+			document.getElementById("FirstRow").className = "ReleaseRow";
+			document.getElementById("SecondRow").className = "ReleaseRow";
+			document.getElementById("ThirdRow").className = "hitRow";
+			document.getElementById("ForthRow").className = "ReleaseRow";
+			
+			
+			break;
+		case 4:
+			//alert("4");
+			var heartObj = document.getElementById("heart" + arg);
+			heartObj.src = "img/heart-red-chosed.png";
+			document.getElementById("heart" + "1").src = "img/heart-green.png";
+			document.getElementById("heart" + "2").src = "img/heart-yellow.png";
+			document.getElementById("heart" + "3").src = "img/heart-orange.png";
+			
+			///change the color of text
+			document.getElementById("FirstRow").className = "ReleaseRow";
+			document.getElementById("SecondRow").className = "ReleaseRow";
+			document.getElementById("ThirdRow").className = "ReleaseRow";
+			document.getElementById("ForthRow").className = "hitRow";
+			
+			break;
+		}
+		localStorage.setItem(indexName, arg);
+	}
+	
+	function funForward(pageLocation)
+	{
+		if(checkNum==1)
+		{
+			window.location.href=pageLocation;
+		}
+		else
+		{
+			alert("Please select one from the options!");
+		}
+		
+	}
+</script>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="startpage-threeblocks" style="background-color: #efeff3;">
+			<div
+				style="padding-top: 10px; padding-bottom: 10px; background-color: #000000; color: #ffffff;">
+				<div class="arrow-left" style="visibility: hidden;">
+					<a href="setting.html"><img src="img/arrow-left.png" alt="" />
+					</a>
+				</div>
+				<div>AQI & Health</div>
+			</div>
+			<span style="padding: 20px 10px 10px; display: block;">How is air quality affecting your health in this moment? </span>
+
+			<table class="health">
+				<tr>
+					<td></td>
+					<td style="text-align: center;"><b>Health</b></td>
+				</tr>
+				<tr onclick="chooseheart('heart1',1)" >
+					<td>
+						<div class="circle">
+							<img id="heart1" src="img/heart-green.png"
+								/>
+						</div></td>
+					<td id="FirstRow">I don't have any symptoms.</td>
+				</tr>
+				<tr onclick="chooseheart('heart2',2)">
+					<td>
+						<div class="circle">
+							<img id="heart2" src="img/heart-yellow.png"
+								onclick="chooseheart(this,2)" />
+						</div></td>
+					<td id="SecondRow">I have mild/moderate symptoms.<br />I can do my normal
+						activities</td>
+				</tr>
+				<tr onclick="chooseheart('heart3',3)">
+					<td>
+						<div class="circle">
+							<img id="heart3" src="img/heart-orange.png"
+								/>
+						</div></td>
+					<td id="ThirdRow">I have moderate/severe symptoms.<br />It is affecting my
+						normal activities</td>
+				</tr>
+				<tr onclick="chooseheart('heart4',4)">
+					<td>
+						<div class="circle">
+							<img id="heart4" src="img/heart-red.png"
+								/>
+						</div></td>
+					<td id="ForthRow">I have severe symptoms.<br />I can't do my normal
+						activities</td>
+				</tr>
+			</table>
+		</div>
+		<!-- <div class="button-save">
+			<a href="symptoms.html">NEXT</a>
+		</div> -->
+		<div class="button-save">
+			<input type="submit" class="pure-button pure-button-primary" value="BACK" onclick="funForwardDirect('pollutionSource.html')">
+			<input type="submit" class="pure-button pure-button-primary" value="NEXT" onclick="funForward('symptoms.html')">
+		</div>
+		<div class="clear"></div>
+		<!-- <div class="startpage-bottom">
+			<a href="index.html"><img src="img/track.png" alt="" /> </a> <a
+				href="track.html"><img src="img/map.png" alt="" /> </a> <a
+				href="symptoms.html"><img src="img/symptom.png" alt="" /> </a> <a
+				href="information.html"><img src="img/information.png" alt="" />
+			</a> <a href="setting.html"><img src="img/setting.png" alt="" /> </a>
+		</div> -->
+
+	</div>
+</body>
+</html>

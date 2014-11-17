@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="format-detection" content="telephone=no" />
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport" content="user-scalable=yes, initial-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<meta name="msapplication-tap-highlight" content="no" />
+<title>Crowd Air</title>
+<script type="text/javascript" src="js/cordova-1.5.0.js"></script>
+	<script src="js/Base64ToPNG.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
+    <script type="text/javascript" src="FileSaver.js"></script>
+    <script type="text/javascript" src="js/Share.js"></script>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+	//add by Yang 11 05 2014
+	var userid=localStorage.getItem("Page00."+"UserID");//get UserID
+	//alert(userid);
+	localStorage.clear(); //clean the memory
+	localStorage.setItem("UserID",userid);
+	function OptionChoice(objName, actType) {
+		localStorage.setItem(actType, objName.value);
+	}
+	
+	function onFileSystemSuccess(fileSystem) 
+        { 
+        	//create the directory file
+        	dataDir = fileSystem.root.getDirectory("AQIData", {create: true, exclusive: false}, gotUserFolderEntry, fail);
+        }
+        
+    	//create the folder
+    	function gotUserFolderEntry(fileEntry) 
+        { 
+        	//create the directory file
+        	dataDirFolder = fileEntry.getDirectory(userid, {create: true, exclusive: false}, gotFileEntry, fail);
+        }
+        
+        //create the result file
+    	function gotFileEntry(fileEntry) 
+    	{
+    		//alert("gotFileEntry");
+    		fileEntry.getFile("CommentOnApp.txt", {create: true, exclusive: false},gotFileWriteEntry, fail);
+    	}
+        
+        // create the writer --- it used for writing file
+		function gotFileWriteEntry(fileEntry) 
+    	{
+        	fileEntry.createWriter(gotFileWriter, fail);
+    	}
+		//error display
+		function fail(error) 
+    	{
+        	console.log(error.code);
+    	}
+    	
+	//get UserId and write files.
+    	function gotFileWriter(writer) 
+    	{
+	       var xmlText="";
+	       if(writer.length==0)
+	       {
+           	  xmlText="<?xml version='1.0' encoding='utf-8'?>";
+           }
+		   xmlText+="<UserFeedBack>";
+		   //Get Comment
+		   var strComment=document.getElementById("txtComment").value;
+           localStorage.setItem("Comment", strComment);
+           for (var key in localStorage)
+            {
+                //var xmlText = new StringBuffer();
+                var storageKey = key;
+                xmlText=xmlText.concat("", "<" + storageKey + ">"); //start
+                xmlText=xmlText.concat("", localStorage.getItem(storageKey)); //value
+                xmlText=xmlText.concat("", "</" + storageKey + ">"); //end
+            }
+            
+            xmlText +="</UserFeedBack>"
+	        writer.write(xmlText);
+	        alert("Thanks for your feedback!");
+	        window.location.href="index.html";
+        }
+        
+        function saveFeedback()
+        {
+        	document.addEventListener("deviceready", onFileSys, false);
+        }
+        
+        function onFileSys()
+        {
+        	var strComment=document.getElementById("txtComment").value;
+			if (strComment=="")
+			{
+				alert("please write something in comment!");
+				return ;
+			}
+			else
+			{
+        	 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
+        	}
+        }
+	
+	// link of the buttons
+	function funForward(pageLocation)
+	{
+		window.location.href=pageLocation;
+	}
+</script>
+
+</head>
+<body>
+	<div class="wrapper">
+		<div class="startpage-threeblocks" style="background-color: #efeff3;">
+			<div style="padding-top: 10px; padding-bottom: 10px; background-color: #000000; color: #ffffff;">
+				<div class="arrow-left" style="visibility: hidden;">
+					<a href="symptoms.html">
+						<img src="img/arrow-left.png" alt="" />
+					</a>
+				</div>
+				<div> Comment on App </div>
+			</div>
+			<div class="">
+				<ul>
+					<span>FeedBack&Comment</span> <br />
+					<li>
+						<div class="textarea"  style="height:40%; width:70%">
+                           <textarea id="txtComment" rows="10" cols="50"></textarea>
+                        </div>
+						<div class="radio-label">
+							
+						</div>
+					</li>
+					<li>
+						<div class="entireLine">User Friendliness</div>
+						<div class="datetime">
+							1<input type="radio" name="UserF" tabindex="1" value="1" id="CoughRadio1" onchange="OptionChoice(this, 'UserFriendliness')" checked="checked" />
+							2<input type="radio" name="UserF" tabindex="2" value="2" id="CoughRadio2" onchange="OptionChoice(this, 'UserFriendliness')" />
+							3<input type="radio" name="UserF" tabindex="3" value="3" id="CoughRadio3" onchange="OptionChoice(this, 'UserFriendliness')" />
+							4<input type="radio" name="UserF" tabindex="4" value="4" id="CoughRadio4" onchange="OptionChoice(this, 'UserFriendliness')" />
+							5<input type="radio" name="UserF" tabindex="5" value="5" id="CoughRadio5" onchange="OptionChoice(this, 'UserFriendliness')" />
+						</div>
+					</li>
+					<li>
+						<div class="entireLine">Do you find it useful?</div>
+						<div class="datetime">
+							1<input type="radio" name="Useful" tabindex="1" value="1" id="WheezeRadio1" onchange="OptionChoice(this, 'Usefulness')" checked="checked" />
+							2<input type="radio" name="Useful" tabindex="2" value="2" id="WheezeRadio2" onchange="OptionChoice(this, 'Usefulness')" />
+							3<input type="radio" name="Useful" tabindex="3" value="3" id="WheezeRadio3" onchange="OptionChoice(this, 'Usefulness')" />
+							4<input type="radio" name="Useful" tabindex="4" value="4" id="WheezeRadio4" onchange="OptionChoice(this, 'Usefulness')" />
+							5<input type="radio" name="Useful" tabindex="5" value="5" id="WheezeRadio5" onchange="OptionChoice(this, 'Usefulness')" />
+						</div>
+					</li>
+					<li>
+						<div class="entireLine">Will you recommend it?</div>
+						<div class="datetime">
+							1<input type="radio" name="recommendation" tabindex="1" value="1" id="DatetimeRadio1" onchange="OptionChoice(this, 'Recommend')"
+								checked="checked" />
+							2<input type="radio" name="recommendation" tabindex="2" value="2" id="DatetimeRadio2" onchange="OptionChoice(this, 'Recommend')" />
+							3<input type="radio" name="recommendation" tabindex="3" value="3" id="DatetimeRadio3" onchange="OptionChoice(this, 'Recommend')" />
+							4<input type="radio" name="recommendation" tabindex="4" value="4" id="DatetimeRadio4" onchange="OptionChoice(this, 'Recommend')" />
+							5<input type="radio" name="recommendation" tabindex="5" value="5" id="DatetimeRadio5" onchange="OptionChoice(this, 'Recommend')" />
+						</div>
+					</li>
+				</ul>
+				<!-- <div class="button-save">
+					<a href="triggers.html">NEXT</a>
+				</div> -->
+				<div class="button-save">
+					<input type="submit" class="pure-button pure-button-primary" value="BACK" onclick="funForward('comment.html')">
+					<input type="submit" class="pure-button pure-button-primary" value="FINISH" onclick="onFileSys()">
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="startpage-bottom">
+			<a href="index.html">
+				<img src="img/track.png" alt="" />
+			</a>
+			<a href="track.html">
+				<img src="img/map.png" alt="" />
+			</a>
+			<a href="symptoms.html">
+				<img src="img/symptom.png" alt="" />
+			</a>
+			<a href="information.html">
+				<img src="img/information.png" alt="" />
+			</a>
+			<a href="setting.html">
+				<img src="img/setting.png" alt="" />
+			</a>
+		</div>
+
+	</div>
+</body>
+</html>

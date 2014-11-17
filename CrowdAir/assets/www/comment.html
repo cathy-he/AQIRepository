@@ -1,0 +1,356 @@
+﻿<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=yes, initial-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <title>Crowd Air</title>
+	<script type="text/javascript" src="js/cordova-1.5.0.js"></script>
+	<script src="js/Base64ToPNG.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
+    <script type="text/javascript" src="FileSaver.js"></script>
+    <script type="text/javascript" src="js/Share.js"></script>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+    	var mImageBase64="";
+    	var checkNumForFile=0;
+    	var checkPic=0;
+    	var pageNum=6;
+    	var latitudeVar=CreatePageIndex(pageNum,"Latitude");
+    	var longitudeVar=CreatePageIndex(pageNum,"Longitude");
+    	//localStorage.setItem("00."+"UserID", "003");
+  	    // custom definition
+        function onFileSystemSuccess(fileSystem) 
+        { 
+        	//create the directory file
+        	dataDir = fileSystem.root.getDirectory("AQIData", {create: true, exclusive: false}, gotUserFolderEntry, fail);
+        }
+        
+    	//create the folder
+    	function gotUserFolderEntry(fileEntry) 
+        { 
+        	//create the directory file
+        	dataDirFolder = fileEntry.getDirectory(localStorage.getItem("Page00."+"UserID"), {create: true, exclusive: false}, gotFileEntry, fail);
+        }
+        
+        //create the result file
+    	function gotFileEntry(fileEntry) 
+    	{
+    		//alert("gotFileEntry");
+    		fileEntry.getFile("UserResult.txt", {create: true, exclusive: false},gotFileWriteEntry, fail);
+    	}
+        
+        // create the writer --- it used for writing file
+		function gotFileWriteEntry(fileEntry) 
+    	{
+        	fileEntry.createWriter(gotFileWriter, fail);
+    	}
+    	
+    	// used for with pic
+		function gotFilePicEntry(fileEntry) 
+    	{
+        	fileEntry.createWriter(gotFilePicWriter, fail);
+    	}
+    	
+    	//read text
+		function readAsText(file)  //used in the furture, read file. Not applied in this version
+		{
+			alert("reader");
+        	var reader = new FileReader();
+        	reader.onloadend = function(evt) 
+        	{
+            	return evt.target.result;
+        	};
+        	reader.readAsText(file);
+    	}
+
+		//get UserId and write files.
+    	function gotFileWriter(writer) 
+    	{
+	    	  //alert("1");
+	    	  if(checkNumForFile==0)
+	    	  {
+			      onGPSReady() ;  
+			      var xmlText="";
+			       if(writer.length==0)
+			       {
+		           	  xmlText="<?xml version='1.0' encoding='utf-8'?>\r\n";
+		           }
+				   xmlText+="<User>\r\n";
+				   //Get Comment
+				   var strComment=document.getElementById("txtComment").value;
+				   
+		            localStorage.setItem(CreatePageIndex(pageNum,"Comment"), strComment);
+		           //Get UserID
+		           
+		           localStorage.setItem(CreatePageIndex(pageNum,"TimeStamp"), getNowFormatDate());
+		           var ImgName=CreateGuid()+".jpg";
+		           localStorage.setItem(CreatePageIndex(pageNum,"ImgName"), ImgName);
+		           
+		           localStorage.removeItem("IndexingPageNum");
+		           localStorage.removeItem("IndexingItemNum");
+		           //Search the keys from localStorage
+		           for (var key in localStorage)
+		            {
+		                //alert("2");
+		                //var xmlText = new StringBuffer();
+						
+		                var storageKey = key;
+		                //alert(storageKey);
+		                
+		                xmlText=xmlText.concat("", "<" + GetVariableIndexName(storageKey) + ">\r\n"); //start
+		                xmlText=xmlText.concat("", localStorage.getItem(storageKey) + "\r\n"); //value
+		                xmlText=xmlText.concat("", "</" + GetVariableIndexName(storageKey) + ">\r\n"); //end
+		            }
+		            
+		            writer.seek(writer.length); //write file from end
+		            xmlText +="</User>\r\n"
+			        writer.write(xmlText);
+			        //save picture
+			        //filename format subfolder&filename
+			        var userFolderName=localStorage.getItem("Page00."+"UserID");
+			        window.plugins.base64ToPNG.saveImage(mImageBase64, {filename:userFolderName+"&"+ImgName, overwrite: true}, 
+			        function(result) { alert(result); }, function(error) { alert(error); });
+			        
+			        alert("Result is saved successfully!");
+			        window.location.href="index.html";
+			        checkNumForFile=1;
+			        //var varComment;
+					//var varComment = confirm("Do you want to give a feedback about App ?");
+					//if (varComment) {
+					//    window.location.href="mobileFeedBack.html";
+					//} else {
+					//    window.location.href="index.html";
+					//}
+			       
+	        	}
+       		
+        }
+
+		//get file pic
+		function gotFilePicWriter(writer) 
+    	{
+    		var smallImage = document.getElementById('UserImage');
+	      	var xmlText=smallImage.src;
+	        writer.write(xmlText);
+        }
+		
+		//error control
+    	function fail(error) 
+    	{
+        	console.log(error.code);
+    	}
+        
+        //create guid
+        function CreateGuid()  //Guid- User ID
+        {
+	    	function S4() 
+	    	{
+	       		return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	    	}
+	    	return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+		
+		}
+    
+        // load gps api
+        var checkedComment = false;
+    	function onDeviceReady() 
+    	{  
+    		var iNum=checkStatus();
+    		if (iNum==0)
+    		{
+    			return;
+    		}
+    		document.addEventListener("deviceready", onGPSReady, false);
+	        
+	    }
+	    
+	    //camera operation
+
+    	var pictureSource;   // picture source
+    	var destinationType; // sets the format of returned value
+	    function onCameraReady() 
+	    {
+	        pictureSource=navigator.camera.PictureSourceType;
+	        destinationType=navigator.camera.DestinationType;
+    	}
+
+		function onPhotoDataSuccess(imageData) 
+		{
+			mImageBase64=imageData;
+      		var smallImage = document.getElementById('UserImage');
+	      	//smallImage.style.display = 'block';
+	      	smallImage.src = "data:image/jpg;base64," + imageData;
+	      	checkPic=1;
+    	}
+
+		function funForward(pageLocation)
+		{
+			window.location.href=pageLocation;
+		}
+		
+		function onCameraReady() {
+        	pictureSource=navigator.camera.PictureSourceType;
+        	destinationType=navigator.camera.DestinationType;
+        	navigator.camera.getPicture(onPhotoDataSuccess, onError, { quality: 50, 
+        	destinationType: destinationType.DATA_URL });
+    	}
+    	
+    	//take photo
+		function capturePhoto() 
+		{
+			document.addEventListener("deviceready",onCameraReady,false);
+    	}
+		
+		//get position
+		function onGPSReady() 
+		{
+			   navigator.geolocation.getCurrentPosition(getGpsSucc, onError);
+		}
+		
+		//set position
+	    function getGpsSucc(position) {
+	    	
+	    	localStorage.setItem(latitudeVar, position.coords.latitude);
+	    	localStorage.setItem(longitudeVar, position.coords.longitude);
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);	    	
+		    	
+	    
+	    }
+	
+		function onError(error) {
+	        alert('code: '    + error.code    + '\n' +
+	              'message: ' + error.message + '\n');
+	    }	
+		
+		function getNowFormatDate() 
+		{
+		    var date = new Date();
+		    var seperator1 = "-";
+		    var seperator2 = ":";
+		    var month = date.getMonth() + 1;
+		    var strDate = date.getDate();
+		    if (month >= 1 && month <= 9) {
+		        month = "0" + month;
+		    }
+		    if (strDate >= 0 && strDate <= 9) {
+		        strDate = "0" + strDate;
+		    }
+		    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+		            + " " + date.getHours() + seperator2 + date.getMinutes()
+		            + seperator2 + date.getSeconds();
+		    return currentdate;
+		}
+		
+		
+		function checkStatus()
+		{
+			var strComment=document.getElementById("txtComment").value;
+	      	//alert(smallImage);
+			if (strComment=="" && checkedComment == false)
+			{
+				alert("No comments?");
+				checkedComment = true;
+				
+				
+				return 0;
+			}
+			else if (checkPic==0)
+			{
+				alert("please take a picture.");
+				return 0;
+			}
+			else
+			{
+				return 1;
+				//do something
+			}
+		}
+    </script>
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <div class="startpage-threeblocks" style="background-color: #efeff3;">
+            <div style="padding-top: 10px; padding-bottom: 10px; background-color: #000000; color: #ffffff;">
+                <div class="arrow-left"><a href="symptoms.html">
+                    <img src="img/arrow-left.png" alt="" /></a></div>
+                <div> Picture and comments</div>
+            </div>
+            
+            <div>
+                <ul>
+                    
+                    <li>
+                    <center> 
+                    	<img style="width:180px;height:120px;" value="" id="UserImage" src="" />
+                    	<a href="#" class="button-camera"></a>
+                    </center>
+                    </li>
+                    <li>
+                     <input type="submit" class="pure-button pure-button-primary" value="Take Picture" onclick="capturePhoto()">
+					
+                    </li>
+                    
+                    
+                    <li>
+                    <div style="text-align:left">
+                    Please write comments here:
+                    </div>
+                        <div class="textarea"  style="height:40%; width:70%">
+                           <textarea id="txtComment" rows="10" cols="50"></textarea>
+                        </div>
+                    </li>
+                    
+                </ul>
+                <div >
+                    
+                   
+                    <div  class="button-save-radio">
+                    	<input type="submit" class="pure-button pure-button-primary" value="BACK" onclick="funForward('triggers.html')">
+						<input type="submit" class="pure-button pure-button-primary" value="SAVE" onclick="onDeviceReady()">
+					</div>
+                    
+
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- <div class="startpage-bottom">
+            <a href="index.html">
+                <img src="img/track.png" alt="" /></a>
+            <a href="track.html">
+                <img src="img/map.png" alt="" /></a>
+            <a href="symptoms.html">
+                <img src="img/symptom.png" alt="" /></a>
+            <a href="information.html">
+                <img src="img/information.png" alt="" /></a>
+            <a href="setting.html">
+                <img src="img/setting.png" alt="" /></a>
+        </div>-->
+
+    </div>
+</body>
+</html>
